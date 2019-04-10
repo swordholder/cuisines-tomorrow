@@ -17,7 +17,7 @@ It is ok to change any code as long as the CuisinesRegistry interface remains un
 
 ## Submitting your solution
 
-+ Fork it to a **[!]**private**[!]** gitlab repository.
-+ Put write up mentioned in point 4. into this file.
-+ Share the project with gitlab user *quandoo_recruitment_task*
++ Fork it to a **[!]**private**[!]** gitlab repository (go to `Settings -> General -> Visibility, project features, permissions -> Project visibility`).
++ Put the write up mentioned in point 4. into the end of this file.
++ Share the project with gitlab user *quandoo_recruitment_task* (go to `Settings -> Members -> Invite member`, find the user in `Select members to invite` and set `Choose a role permission` to `Developer`)
 + Send us an **ssh** clone link to the repository.
