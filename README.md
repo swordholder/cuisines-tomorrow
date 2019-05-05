@@ -21,3 +21,12 @@ It is ok to change any code as long as the CuisinesRegistry interface remains un
 + Put the write up mentioned in point 4. into the end of this file.
 + Share the project with gitlab user *quandoo_recruitment_task* (go to `Settings -> Members -> Invite member`, find the user in `Select members to invite` and set `Choose a role permission` to `Developer`)
 + Send us an **ssh** clone link to the repository.
+
+Scaling:
+First of all I wouldn't say that having billions of objects in-memory is the most efficient way for solving this problem,
+it will definitely slow down the application.
+Secondly if we are planning to use Collections and/or arrays - they only support about two billion elements.
+We can consider using ByteBuffer and save our serialized objects in that byteBuffer.
+But the more objects we will have the slower it will become to work with it, and also we shouldn't forget that memory is not infinite. So having so much data in-memory is a bit risky decision I would say.
+For billions of objects/data I would consider using some distributed DataBase systems like Cassandra, Hadoop, etc.
+They keep some part of data in-memory some part on hard drive, and they are designed to be very fast as far as data is split across many nodes.

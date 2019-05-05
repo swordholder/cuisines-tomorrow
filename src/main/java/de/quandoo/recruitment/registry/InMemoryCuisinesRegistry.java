@@ -1,67 +1,111 @@
 package de.quandoo.recruitment.registry;
 
 import de.quandoo.recruitment.registry.api.CuisinesRegistry;
+import de.quandoo.recruitment.registry.comparator.RelatedModelComparator;
+import de.quandoo.recruitment.registry.model.AbstractModel;
 import de.quandoo.recruitment.registry.model.Cuisine;
 import de.quandoo.recruitment.registry.model.Customer;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import de.quandoo.recruitment.registry.model.RelatedModel;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class InMemoryCuisinesRegistry implements CuisinesRegistry {
 
-    private List italianCuisineCustomers = new LinkedList();
-    private List frenchCuisineCustomers = new LinkedList();
-    private List germanCuisineCustomers = new LinkedList();
+    private List<RelatedModel> customerToCuisines;
+    private List<RelatedModel> cuisineToCustomers;
 
-    private String cuisineName;
+    public InMemoryCuisinesRegistry() {
+        customerToCuisines = new ArrayList<>();
+        cuisineToCustomers = new ArrayList<>();
+    }
 
     @Override
-    public void register(final Customer userId, final Cuisine cuisine) {
-        cuisineName = cuisine.getName();
-        if (cuisineName == "italian") {
-            italianCuisineCustomers.add(userId);
-        } else
-        {
-            if (cuisineName == "french") {
-                frenchCuisineCustomers.add(userId);
-            } else if (cuisine.getName() == "german") {
-                germanCuisineCustomers.add(userId);
+    public void register(Customer customer, Cuisine cuisine) {
+
+        RelatedModel relatedModel = binarySearch(customerToCuisines,customer);
+        if (relatedModel ==null) {
+            relatedModel = new RelatedModel(customer,cuisine);
+            customerToCuisines.add(relatedModel);
+        } else {
+            relatedModel.addChild(cuisine);
+        }
+
+        relatedModel = binarySearch(cuisineToCustomers,cuisine);
+        if(relatedModel ==null){
+            relatedModel = new RelatedModel(cuisine,customer);
+            cuisineToCustomers.add(relatedModel);
+        }
+        else{
+            relatedModel.addChild(customer);
+        }
+    }
+
+    @Override
+    public List<Cuisine> customerCuisines(Customer customer) {
+
+        RelatedModel relatedModel = binarySearch(customerToCuisines,customer);
+        if(relatedModel ==null)
+            return null;
+
+        return (List<Cuisine>) relatedModel.getChildren();
+    }
+
+    @Override
+    public List<Customer> cuisineCustomers(Cuisine cuisine) {
+
+        RelatedModel relatedModel = binarySearch(cuisineToCustomers,cuisine);
+
+        if(relatedModel ==null)
+            return null;
+
+        return (List<Customer>) relatedModel.getChildren();
+    }
+
+    @Override
+    public List<Cuisine> topCuisines(int n) {
+        if(cuisineToCustomers.size()==0)
+            return null;
+
+        Collections.sort(cuisineToCustomers, RelatedModelComparator::compareByChildCount);
+
+        List<RelatedModel> relatedModels = cuisineToCustomers.stream().limit(n).collect(Collectors.toList());
+
+        List<Cuisine> cuisines = new ArrayList<>();
+        for(RelatedModel relatedModel : relatedModels){
+            cuisines.add((Cuisine) relatedModel.getParent());
+        }
+
+        return cuisines;
+    }
+
+    private RelatedModel binarySearch(List<RelatedModel> list, AbstractModel abstractModel) {
+
+        if(list.size()==0)
+            return null;
+
+        Collections.sort(list, RelatedModelComparator::compareByParentId);
+
+        int start = 0;
+        int end = list.size() - 1;
+
+        while (start <= end) {
+
+            int middle = (start + end) / 2;
+
+            if (abstractModel.getId().compareTo(list.get(middle).getParent().getId()) < 0) {
+                end = middle - 1;
+            }
+
+            if (abstractModel.getId().compareTo(list.get(middle).getParent().getId()) > 0) {
+                start = middle + 1;
+            }
+
+            if (abstractModel.getId().compareTo(list.get(middle).getParent().getId()) == 0) {
+                return list.get(middle);
             }
         }
-        System.err.println("Unknown cuisine, please reach johny@bookthattable.de to update the code");
-    }
 
-    @Override
-    public List<Customer> cuisineCustomers(final Cuisine cuisine) {
-        if (cuisineName == "italian") {
-            return italianCuisineCustomers;
-        } else
-        {
-            if (cuisineName == "french") {
-                return frenchCuisineCustomers;
-            } else if (cuisineName == "german") {
-                return germanCuisineCustomers;
-            }
-        }
         return null;
-    }
-
-    @Override
-    public List<Cuisine> customerCuisines(final Customer customer) {
-        if (italianCuisineCustomers.contains(customer)) {
-            return Arrays.asList(new Cuisine("italian"));
-        }
-        if (frenchCuisineCustomers.contains(customer)) {
-            return Arrays.asList(new Cuisine("french"));
-        }
-        if (germanCuisineCustomers.contains(customer)) {
-            return Arrays.asList(new Cuisine("german"));
-        }
-        return null;
-    }
-
-    @Override
-    public List<Cuisine> topCuisines(final int n) {
-        throw new RuntimeException("Not implemented");
     }
 }

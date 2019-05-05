@@ -1,6 +1,6 @@
 package de.quandoo.recruitment.registry.model;
 
-public class Customer {
+public class Customer extends AbstractModel {
     private final String uuid;
 
     public Customer(final String uuid) {
@@ -9,5 +9,15 @@ public class Customer {
 
     public String getUuid() {
         return uuid;
+    }
+
+    @Override
+    public String getId(){
+        return this.getUuid();
+    }
+
+    @Override
+    public String toString() {
+        return this.getId();
     }
 }
