@@ -1,7 +1,8 @@
-package de.quandoo.recruitment.registry.api;
+package swordholder.api;
 
-import de.quandoo.recruitment.registry.model.Cuisine;
-import de.quandoo.recruitment.registry.model.Customer;
+import swordholder.model.Cuisine;
+import swordholder.model.Customer;
+
 import java.util.List;
 
 public interface CuisinesRegistry {

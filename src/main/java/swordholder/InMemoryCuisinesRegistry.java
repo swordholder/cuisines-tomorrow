@@ -1,11 +1,11 @@
-package de.quandoo.recruitment.registry;
+package swordholder;
 
-import de.quandoo.recruitment.registry.api.CuisinesRegistry;
-import de.quandoo.recruitment.registry.comparator.RelatedModelComparator;
-import de.quandoo.recruitment.registry.model.AbstractModel;
-import de.quandoo.recruitment.registry.model.Cuisine;
-import de.quandoo.recruitment.registry.model.Customer;
-import de.quandoo.recruitment.registry.model.RelatedModel;
+import swordholder.api.CuisinesRegistry;
+import swordholder.comparator.RelatedModelComparator;
+import swordholder.model.AbstractModel;
+import swordholder.model.Cuisine;
+import swordholder.model.Customer;
+import swordholder.model.RelatedModel;
 
 import java.util.*;
 import java.util.stream.Collectors;

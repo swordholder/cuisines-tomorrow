@@ -1,14 +1,12 @@
-package de.quandoo.recruitment.registry;
+package swordholder;
 
-import de.quandoo.recruitment.registry.constants.Cuisines;
-import de.quandoo.recruitment.registry.model.Cuisine;
-import de.quandoo.recruitment.registry.model.Customer;
+import swordholder.constants.Cuisines;
+import swordholder.model.Cuisine;
+import swordholder.model.Customer;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 public class InMemoryCuisinesRegistryTest {
 

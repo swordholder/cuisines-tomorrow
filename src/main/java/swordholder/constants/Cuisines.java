@@ -1,4 +1,4 @@
-package de.quandoo.recruitment.registry.constants;
+package swordholder.constants;
 
 public final class Cuisines {
     public static final String ITALIAN = "italian";

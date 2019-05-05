@@ -1,6 +1,6 @@
-package de.quandoo.recruitment.registry.comparator;
+package swordholder.comparator;
 
-import de.quandoo.recruitment.registry.model.RelatedModel;
+import swordholder.model.RelatedModel;
 
 public class RelatedModelComparator {
 

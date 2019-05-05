@@ -1,4 +1,4 @@
-package de.quandoo.recruitment.registry.model;
+package swordholder.model;
 
 public class Cuisine extends AbstractModel {
 
